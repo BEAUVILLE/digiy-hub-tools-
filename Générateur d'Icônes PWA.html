@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>∞ Générateur d'Icônes PWA — DIGIY</title>
+  <meta name="description" content="Générateur d'icônes PWA DIGIY (∞), export en lot + manifest-ready." />
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+      background: radial-gradient(circle at top, rgba(0,133,63,.25), transparent 55%),
+                  linear-gradient(135deg, #022c22 0%, #0b1120 55%, #020617 100%);
+      min-height:100vh;
+      padding:18px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      color:#0f172a;
+    }
+    .container{
+      background:#fff;
+      border-radius:24px;
+      padding:26px;
+      max-width:980px;
+      width:100%;
+      box-shadow:0 20px 60px rgba(0,0,0,.35);
+      border:1px solid rgba(2,6,23,.10);
+    }
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+    h1{
+      color:#022c22;
+      font-size:1.8rem;
+      line-height:1.15;
+      letter-spacing:.02em;
+    }
+    .subtitle{
+      color:#475569;
+      margin-top:6px;
+      font-size:.95rem;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(2,6,23,.12);
+      background:#f8fafc;
+      color:#0f172a;
+      font-weight:800;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .badge span{opacity:.8;font-weight:700}
+
+    .layout{
+      display:grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap:16px;
+      margin-top:10px;
+    }
+
+    .card{
+      background:#f8fafc;
+      border:1px solid rgba(2,6,23,.10);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    label{
+      display:block;
+      font-weight:900;
+      margin-bottom:7px;
+      color:#0f172a;
+      font-size:13px;
+      letter-spacing:.02em;
+    }
+
+    input, textarea, select{
+      width:100%;
+      padding:11px 12px;
+      border:2px solid rgba(2,6,23,.12);
+      border-radius:12px;
+      font-size:15px;
+      margin-bottom:14px;
+      outline:none;
+      background:#fff;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color:#16a34a;
+      box-shadow:0 0 0 4px rgba(22,163,74,.15);
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+
+    .btns{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    button{
+      padding:14px 14px;
+      border:none;
+      border-radius:14px;
+      font-size:15px;
+      font-weight:900;
+      cursor:pointer;
+      transition:transform .12s, filter .12s;
+      letter-spacing:.01em;
+    }
+    button:hover{transform:translateY(-1px);filter:brightness(1.02)}
+    button:active{transform:translateY(0)}
+
+    .btn-generate{
+      background:linear-gradient(135deg,#16a34a,#facc15);
+      color:#0b1120;
+    }
+    .btn-download{
+      background:linear-gradient(135deg,#f97316,#ea580c);
+      color:#fff;
+    }
+
+    .preview-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap:14px;
+      margin-top:10px;
+    }
+    .preview-item{text-align:center}
+    .preview-canvas{
+      width:150px;height:150px;
+      border:2px solid #16a34a;
+      border-radius:16px;
+      background:#fff;
+      cursor:pointer;
+      transition:transform .12s;
+    }
+    .preview-canvas:hover{transform:scale(1.03)}
+    .preview-label{
+      margin-top:8px;
+      font-size:12px;
+      font-weight:900;
+      color:#0f172a;
+    }
+    .hint{
+      margin-top:12px;
+      color:#475569;
+      font-size:13px;
+      line-height:1.5;
+    }
+
+    .codebox{
+      margin-top:12px;
+      background:#0b1120;
+      color:#e5e7eb;
+      border-radius:14px;
+      padding:12px;
+      font-size:12px;
+      overflow:auto;
+      border:1px solid rgba(148,163,184,.25);
+      max-height:220px;
+      white-space:pre;
+    }
+    .mini{
+      font-size:12px;
+      color:#64748b;
+      margin-top:6px;
+      line-height:1.45;
+    }
+
+    @media(max-width:900px){
+      .layout{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top">
+      <div>
+        <h1>∞ Générateur d’Icônes PWA — DIGIY</h1>
+        <div class="subtitle">Export en lot + snippet prêt pour ton <strong>manifest.json</strong>.</div>
+      </div>
+      <div class="badge">DIGIYLYFE <span>•</span> Couleurs Sénégal 🇸🇳</div>
+    </div>
+
+    <div class="layout">
+      <!-- CONTROLS -->
+      <div class="card">
+        <label for="symbol">Symbole (∞ recommandé)</label>
+        <input type="text" id="symbol" value="∞" maxlength="2" />
+
+        <div class="row">
+          <div>
+            <label for="bgColor">Fond</label>
+            <input type="color" id="bgColor" value="#00853F" />
+          </div>
+          <div>
+            <label for="fgColor">Symbole</label>
+            <input type="color" id="fgColor" value="#D4AF37" />
+          </div>
+        </div>
+
+        <label for="text">Texte bas (optionnel)</label>
+        <input type="text" id="text" value="DIGIY" maxlength="10" />
+
+        <label for="shape">Forme</label>
+        <select id="shape">
+          <option value="square">Carré</option>
+          <option value="rounded" selected>Arrondi</option>
+        </select>
+
+        <label for="border">Bordure</label>
+        <select id="border">
+          <option value="on" selected>Oui</option>
+          <option value="off">Non</option>
+        </select>
+
+        <div class="btns">
+          <button class="btn-generate" id="btnGenerate">🎨 Générer</button>
+          <button class="btn-download" id="btnDownloadAll">⬇️ Télécharger tout</button>
+        </div>
+
+        <div class="hint">
+          • Clique une icône pour la télécharger seule.<br/>
+          • “Télécharger tout” sort tout d’un coup (plus rapide).<br/>
+          • Ensuite tu mets ça dans <strong>/icons/</strong>.
+        </div>
+
+        <div class="mini" style="margin-top:12px;">
+          Snippet <strong>manifest.json</strong> (copie/colle) :
+        </div>
+        <pre class="codebox" id="manifestSnippet">{ "icons": [] }</pre>
+      </div>
+
+      <!-- PREVIEW -->
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <div style="font-weight:900;color:#0f172a;">Aperçu & exports</div>
+          <div class="mini">Clique une icône = download PNG</div>
+        </div>
+
+        <div class="preview-grid" id="previewGrid"></div>
+
+        <div class="mini" style="margin-top:12px;">
+          Fichiers générés :<br/>
+          <strong>icons/icon-72.png</strong> … <strong>icons/icon-512.png</strong><br/>
+          + <strong>icons/apple-touch-icon-180.png</strong> + <strong>icons/favicon-64.png</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Tailles PWA standard + extras
+    const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+    const extras = [
+      { size: 180, name: "apple-touch-icon-180.png" },
+      { size: 64,  name: "favicon-64.png" }
+    ];
+
+    const grid = document.getElementById('previewGrid');
+    const snippet = document.getElementById('manifestSnippet');
+
+    function roundedRect(ctx, x, y, w, h, r){
+      const rr = Math.min(r, w/2, h/2);
+      ctx.beginPath();
+      ctx.moveTo(x+rr, y);
+      ctx.arcTo(x+w, y, x+w, y+h, rr);
+      ctx.arcTo(x+w, y+h, x, y+h, rr);
+      ctx.arcTo(x, y+h, x, y, rr);
+      ctx.arcTo(x, y, x+w, y, rr);
+      ctx.closePath();
+    }
+
+    function drawIconToCanvas(canvas, cfg){
+      const { size, symbol, bgColor, fgColor, text, shape, borderOn } = cfg;
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+
+      // BG
+      ctx.clearRect(0,0,size,size);
+      ctx.fillStyle = bgColor;
+
+      if(shape === "rounded"){
+        const r = Math.round(size * 0.22);
+        roundedRect(ctx, 0, 0, size, size, r);
+        ctx.fill();
+      }else{
+        ctx.fillRect(0,0,size,size);
+      }
+
+      // Border
+      if(borderOn){
+        ctx.strokeStyle = fgColor;
+        ctx.lineWidth = Math.max(2, Math.round(size / 40));
+        const inset = ctx.lineWidth / 2;
+
+        if(shape === "rounded"){
+          const r = Math.round(size * 0.22);
+          roundedRect(ctx, inset, inset, size - inset*2, size - inset*2, r);
+          ctx.stroke();
+        }else{
+          ctx.strokeRect(inset, inset, size - inset*2, size - inset*2);
+        }
+      }
+
+      // Symbol
+      ctx.fillStyle = fgColor;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // Ajuste un peu selon emoji / texte
+      const mainFont = Math.round(size * 0.52);
+      ctx.font = `900 ${mainFont}px system-ui, -apple-system, Segoe UI, Arial`;
+      ctx.fillText(symbol, size/2, size/2.1);
+
+      // Text bottom
+      if(text && text.trim() !== ""){
+        const small = Math.round(size * 0.16);
+        ctx.font = `900 ${small}px system-ui, -apple-system, Segoe UI, Arial`;
+        ctx.fillText(text.trim(), size/2, size*0.82);
+      }
+    }
+
+    function getConfig(){
+      return {
+        symbol: document.getElementById('symbol').value || '∞',
+        bgColor: document.getElementById('bgColor').value,
+        fgColor: document.getElementById('fgColor').value,
+        text: document.getElementById('text').value || '',
+        shape: document.getElementById('shape').value,
+        borderOn: document.getElementById('border').value === 'on'
+      };
+    }
+
+    function downloadCanvas(canvas, filename){
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function buildManifestIcons(){
+      // icons/ icon-72.png etc
+      const icons = sizes.map(s => ({
+        src: `icons/icon-${s}.png`,
+        sizes: `${s}x${s}`,
+        type: "image/png",
+        purpose: "any maskable"
+      }));
+      return { icons };
+    }
+
+    function render(){
+      const cfg = getConfig();
+      grid.innerHTML = '';
+
+      // Standard sizes
+      sizes.forEach(size => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'preview-canvas';
+
+        drawIconToCanvas(canvas, { ...cfg, size });
+
+        canvas.addEventListener('click', () => {
+          downloadCanvas(canvas, `icon-${size}.png`);
+        });
+
+        const label = document.createElement('div');
+        label.className = 'preview-label';
+        label.textContent = `${size}×${size} — icon-${size}.png`;
+
+        item.appendChild(canvas);
+        item.appendChild(label);
+        grid.appendChild(item);
+      });
+
+      // Extras
+      extras.forEach(ex => {
+        const item = document.createElement('div');
+        item.className = 'preview-item';
+
+        const canvas = document.createElement('canvas');
+        canvas.className = 'preview-canvas';
+
+        drawIconToCanvas(canvas, { ...cfg, size: ex.size });
+
+        canvas.addEventListener('click', () => {
+          downloadCanvas(canvas, ex.name);
+        });
+
+        const label = document.createElement('div');
+        label.className = 'preview-label';
+        label.textContent = `${ex.size}×${ex.size} — ${ex.name}`;
+
+        item.appendChild(canvas);
+        item.appendChild(label);
+        grid.appendChild(item);
+      });
+
+      // Manifest snippet
+      const manifest = buildManifestIcons();
+      snippet.textContent = JSON.stringify(manifest, null, 2);
+    }
+
+    function downloadAll(){
+      // Télécharge tout en rafale
+      const cfg = getConfig();
+
+      // Standard
+      sizes.forEach(size => {
+        const c = document.createElement('canvas');
+        drawIconToCanvas(c, { ...cfg, size });
+        downloadCanvas(c, `icon-${size}.png`);
+      });
+
+      // Extras
+      extras.forEach(ex => {
+        const c = document.createElement('canvas');
+        drawIconToCanvas(c, { ...cfg, size: ex.size });
+        downloadCanvas(c, ex.name);
+      });
+
+      // Manifest snippet as file
+      const manifest = buildManifestIcons();
+      const blob = new Blob([JSON.stringify(manifest, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "manifest-icons.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    // Bind
+    document.getElementById('btnGenerate').addEventListener('click', render);
+    document.getElementById('btnDownloadAll').addEventListener('click', downloadAll);
+
+    // Auto
+    window.addEventListener('load', render);
+  </script>
+</body>
+</html>
