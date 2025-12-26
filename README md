@@ -1,0 +1,72 @@
+# 🛠️ DIGIY TOOLS
+
+Ce dossier contient les **outils techniques internes** de l’écosystème **DIGIYLYFE**.
+
+👉 Ces outils **ne font PAS partie de la vitrine publique**  
+👉 Ils servent à la **création**, la **maintenance** et le **support technique**
+
+---
+
+## 🎯 Objectif
+
+- Fournir des outils simples pour le déploiement et l’optimisation DIGIY
+- Séparer clairement :
+  - la **vitrine** (digiy-hub/)
+  - le **drive d’usage** (digiy-hub-drive/)
+  - les **outils techniques** (tools/)
+
+Cette séparation protège la stabilité globale du système.
+
+---
+
+## 📂 Contenu actuel
+
+### 🔧 `generateur-icones-pwa.html`
+Outil de génération d’icônes PWA à partir d’une image source.
+
+Usage :
+- Générer rapidement les tailles d’icônes requises
+- Tester visuellement les assets
+- Support au déploiement PWA (DRIVE ou modules)
+
+⚠️ **Cet outil n’est pas destiné aux utilisateurs finaux.**
+
+---
+
+## 🚫 Règles importantes
+
+- ❌ Aucun outil ici ne doit être lié depuis la vitrine publique
+- ❌ Aucun code métier (JËF, JOBS, PAY, etc.)
+- ❌ Aucun accès Supabase direct pour le public
+- ✅ Usage interne / technique uniquement
+
+---
+
+## 🧠 Philosophie
+
+> **Un outil fait une chose, et la fait bien.**
+
+Les outils DIGIY doivent rester :
+- simples
+- autonomes
+- sans dépendance critique
+- faciles à supprimer ou remplacer
+
+---
+
+## 🔐 Sécurité
+
+- Accès non indexé
+- Pas de données sensibles
+- Pas de logique critique
+
+Si un outil est compromis, **l’écosystème DIGIY continue de fonctionner**.
+
+---
+
+## ♾️ DIGIYLYFE
+
+DIGIYLYFE construit un écosystème digital africain souverain,  
+où chaque brique a une responsabilité claire.
+
+**Tools = servir le bâtisseur, pas l’utilisateur final.**
